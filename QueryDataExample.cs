@@ -1,15 +1,11 @@
-﻿using System;
+using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tutorial.SqlConn;
-using System.Data.Common;
-using MySql.Data.MySqlClient;
-using CsMySQLTutorial;
-
-using System.Data;
-
 
 namespace CsMySQLTutorial
 {
@@ -31,11 +27,10 @@ namespace CsMySQLTutorial
             finally
             {
                 // Закрыть соединение.
-                //conn.Close();
+                // conn.Close();
                 // Уничтожить объект, освободить ресурс.
-                //conn.Dispose();
+                // conn.Dispose();
             }
-
         }
         private void QueryEmployee(MySqlConnection conn)
         {
@@ -78,30 +73,29 @@ namespace CsMySQLTutorial
                 }
             }
         }
+
         public void inserData(MySqlConnection connection)
         {
-
+            Random rand = new Random();
             try
             {
                 // Команда Insert.
                 string sql = "Insert into Salary_Grade (Grade, High_Salary, Low_Salary) "
                                                  + " values (@grade, @highSalary, @lowSalary) ";
-                MySqlCommand
-                cmd = connection.CreateCommand();
-                cmd.CommandText= sql;
+                MySqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = sql;
                 // Создать объект Parameter.
                 MySqlParameter gradeParam = new MySqlParameter("@grade", SqlDbType.Int);
-                gradeParam.Value= 3;
+                gradeParam.Value = (int)rand.Next(100000);
                 cmd.Parameters.Add(gradeParam);
                 // Добавить параметр @highSalary (Написать кратко).
                 MySqlParameter highSalaryParam = cmd.Parameters.Add("@highSalary", MySqlDbType.Float);
-                highSalaryParam.Value= 20000;
+                highSalaryParam.Value = 20000;
                 // Добавить параметр @lowSalary (Написать кратко).
                 cmd.Parameters.Add("@lowSalary", MySqlDbType.Float).Value = 10000;
                 // Выполнить Command (использованная для  delete, insert, update).
                 int rowCount = cmd.ExecuteNonQuery();
-                Console.WriteLine
-        ("Row Count affected = " + rowCount);
+                Console.WriteLine("Row Count affected = " + rowCount);
             }
             catch (Exception e)
             {
@@ -110,14 +104,15 @@ namespace CsMySQLTutorial
             }
             finally
             {
-                //connection.Close();
-                //connection.Dispose();
-                //connection = null;
+                connection.Close();
+                connection.Dispose();
+                // connection = null;
             }
-
         }
+
         public void updateData(MySqlConnection conn)
         {
+
             try
             {
                 string sql = "Update Employee set Salary = @salary where Emp_Id = @empId";
@@ -128,7 +123,7 @@ namespace CsMySQLTutorial
 
                 cmd.CommandText = sql;
                 // Добавить и настроить значение для параметра.
-                cmd.Parameters.Add("@salary", MySqlDbType.Float).Value = 1000;
+                cmd.Parameters.Add("@salary", MySqlDbType.Float).Value = 85000;
                 cmd.Parameters.Add("@empId", MySqlDbType.Decimal).Value = 7369;
                 // Выполнить Command (Использованная для delete, insert, update).
                 int rowCount = cmd.ExecuteNonQuery();
@@ -141,12 +136,12 @@ namespace CsMySQLTutorial
             }
             finally
             {
-                //conn.Close();
-                //conn.Dispose();
-                //conn = null;
-
+                /*    conn.Close();
+                    conn.Dispose();
+                    conn = null;*/
             }
         }
+
         public void removeData(MySqlConnection conn)
         {
             try
@@ -173,15 +168,17 @@ namespace CsMySQLTutorial
             finally
             {
                 //conn.Close();
-               //conn.Dispose();
+                //conn.Dispose();
                 //conn = null;
             }
         }
+
         public void scalarExecute(MySqlConnection conn)
         {
+
             try
             {
-                MySqlCommand cmd = new MySqlCommand("Select count(*) From Employee", conn);
+                MySqlCommand cmd = new MySqlCommand("SELECT MAX(e.Salary) FROM employee AS e", conn);
 
                 cmd.CommandType = CommandType.Text;
                 // Метод ExecuteScalar возвращает значение первого столбца в первой строке.
@@ -200,12 +197,10 @@ namespace CsMySQLTutorial
             }
             finally
             {
-                //conn.Close();
-                //conn.Dispose();
+                /*    conn.Close();
+                    conn.Dispose();*/
             }
+
         }
     }
 }
-            
-       
-    
