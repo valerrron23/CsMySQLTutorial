@@ -1,12 +1,13 @@
-﻿using System;
+using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
-namespace Tutorial.SqlConn
+
+namespace CsMySQLTutorial
 {
-    class DBMySQLUtils
+    internal class DBMySQLUtils
     {
         public static MySqlConnection
                  GetDBConnection(string host, int port, string database, string username, string password)
@@ -17,6 +18,5 @@ namespace Tutorial.SqlConn
             MySqlConnection conn = new MySqlConnection(connString);
             return conn;
         }
-
     }
 }
