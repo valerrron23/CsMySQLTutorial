@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tutorial.SqlConn;
-using MySql.Data.MySqlClient;
 using CsMySQLTutorial;
+using MySql.Data.MySqlClient;
 
 
 internal class Program
 {
     private static void Main(string[] args)
     {
-        Console.WriteLine("Hello World!");
+        Console.WriteLine("Hello, World!");
+
         Console.WriteLine("Getting Connection ...");
         MySqlConnection conn = DBUtils.GetDBConnection();
         try
@@ -23,8 +18,11 @@ internal class Program
 
             QueryDataExample example = new QueryDataExample();
             example.run(conn);
-            example.inserData(conn);
-            Console.WriteLine("---------------------------------------");
+            // Console.WriteLine("----------------------INSERT DATA------------------------");
+            // example.inserData(conn);
+            // example.updateData(conn);
+            // example.removeData(conn);
+            example.scalarExecute(conn);
         }
         catch (Exception e)
         {
